@@ -1,3 +1,5 @@
+Introduction
+===
 A Spring-Boot boilerplate project for building a skeleton web based application. It tries to leverage the latest and
 production ready technologies such as using WebSocket as client push, AMQP based  messaging etc. It also tries to
 include some best practices of building large scale application.
@@ -12,9 +14,11 @@ developers if they are interested in Spring related technologies.
 
 
 TODO
+===
 * Shows how to write unit tests using Spring
 * Shows how to use Spring security
 * .... (A lot of things haven't been decided yet.
 
-Notes
-* core-services produces a runnable jar. Run it with '--debug' can see a lot of usefull infomation
+Usages
+===
+* core-services produces a runnable jar. Run it with '--debug' can see a lot of useful information
