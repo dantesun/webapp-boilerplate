@@ -3,10 +3,12 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <!-- Override LOG PATTERN from defaults.xml -->
     <property name="CONSOLE_LOG_PATTERN"
-              value="%d{HH:mm:ss} [%15.15t{14}] %cyan(%-40.40logger{39}) [%highlight(%-5level)] %m%n%wex"/>
+              value="%d{HH:mm:ss} [%15.15t{14}] %cyan(%-50.50logger{49}) [%-5level] %m%n%wex"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
     </root>
-    <logger name="io.github.dantesun" level="TRACE"></logger>
+    <logger name="org.mybatis" level="DEBUG"/>
+    <logger name="org.apache.ibatis" level="DEBUG"/>
+    <logger name="io.github.dantesun.petclinic.data" level="TRACE"/>
 </configuration>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.github.dantesun.petclinic.data.daos.PersonDao">
+    <sql id="personColumn">
+        firstName, lastName
+    </sql>
+    <sql id="selectPerson">
+        SELECT id,
+        <include refid="personColumn"/>
+        FROM person
+    </sql>
+    <select id="findOne" resultType="Person">
+        <include refid="selectPerson"/>
+        WHERE id=#{id}
+    </select>
+    <select id="findAll" resultType="Person">
+        <include refid="selectPerson"/>
+    </select>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO person(<include refid="personColumn"/>)
+        VALUES(#{firstName}, #{lastName})
+    </insert>
+</mapper>
