@@ -12,6 +12,11 @@
     <artifactId>core-services</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>dantesun.github.io</groupId>
+            <artifactId>core-models</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <!-- Enable logging using logback -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -36,6 +41,15 @@
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.hateoas</groupId>
+            <artifactId>spring-hateoas</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

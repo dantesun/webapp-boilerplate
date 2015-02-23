@@ -15,11 +15,10 @@
     <update id="update" lang="velocity" parameterType="Person">
         UPDATE PERSON
         #mset()
-        #if($_parameter.firstName)
-        firstName = @{firstName},
-        #end
-        #if($_parameter.lastName)
-        lastName = @{lastName},
+        #set($columns = $strings.deleteWhitespace("<include refid="personColumn"/>") )
+        #set($columns = $strings.split($columns, ',') )
+        #foreach($column in $utils.deleteNullProp($columns))
+        $column = @{$column},
         #end
         #end
         WHERE id = @{id}

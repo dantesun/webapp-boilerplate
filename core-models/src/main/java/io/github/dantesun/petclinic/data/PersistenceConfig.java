@@ -2,6 +2,7 @@ package io.github.dantesun.petclinic.data;
 
 import io.github.dantesun.petclinic.data.daos.DaoMarker;
 import io.github.dantesun.petclinic.data.entities.BaseEntity;
+import io.github.dantesun.petclinic.data.velocity.VelocityDriver;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -31,11 +32,10 @@ public class PersistenceConfig {
         factoryBean.setDataSource(ds);
         String typeAliasesPackage = BaseEntity.class.getPackage().getName();
         factoryBean.setTypeAliasesPackage(typeAliasesPackage);
+        factoryBean.setTypeAliases(new Class<?>[]{VelocityDriver.class});
 
         //Use velocity as the scripting language for mapper
         SqlSessionFactory factory = factoryBean.getObject();
-//        LanguageDriverRegistry languageRegistry = factory.getConfiguration().getLanguageRegistry();
-//        languageRegistry.setDefaultDriverClass(Driver.class);
         return factory;
     }
 }
