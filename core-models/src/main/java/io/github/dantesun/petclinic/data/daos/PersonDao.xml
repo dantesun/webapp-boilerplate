@@ -11,6 +11,20 @@
         <include refid="personColumn"/>
         FROM person
     </sql>
+
+    <update id="update" lang="velocity" parameterType="Person">
+        UPDATE PERSON
+        #mset()
+        #if($_parameter.firstName)
+        firstName = @{firstName},
+        #end
+        #if($_parameter.lastName)
+        lastName = @{lastName},
+        #end
+        #end
+        WHERE id = @{id}
+    </update>
+
     <select id="findOne" resultType="Person">
         <include refid="selectPerson"/>
         WHERE id=#{id}

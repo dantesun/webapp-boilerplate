@@ -30,6 +30,13 @@ public class PersistenceConfigTest {
         assertEquals(1, personDao.insertOne(person));
         assertNotNull(person.getId());
         assertNotNull(personDao.findOne(person.getId()));
+        person.setFirstName("Michael");
+        person.setLastName(null);
+        assertEquals(1, personDao.update(person));
+        person = personDao.findOne(person.getId());
+        assertNotNull(person);
+        assertEquals("Michael", person.getFirstName());
+        assertEquals("Doe", person.getLastName());
 
         //Insert the second record
         person.setId(null);
@@ -39,5 +46,7 @@ public class PersistenceConfigTest {
 
         List<Person> persons = personDao.findAll();
         assertEquals(2, persons.size());
+
+
     }
 }

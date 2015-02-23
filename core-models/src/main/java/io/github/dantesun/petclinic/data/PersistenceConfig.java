@@ -31,6 +31,11 @@ public class PersistenceConfig {
         factoryBean.setDataSource(ds);
         String typeAliasesPackage = BaseEntity.class.getPackage().getName();
         factoryBean.setTypeAliasesPackage(typeAliasesPackage);
-        return factoryBean.getObject();
+
+        //Use velocity as the scripting language for mapper
+        SqlSessionFactory factory = factoryBean.getObject();
+//        LanguageDriverRegistry languageRegistry = factory.getConfiguration().getLanguageRegistry();
+//        languageRegistry.setDefaultDriverClass(Driver.class);
+        return factory;
     }
 }
