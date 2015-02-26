@@ -1,7 +1,7 @@
 package io.github.dantesun.petclinic.data;
 
-import io.github.dantesun.petclinic.data.daos.PersonDao;
-import io.github.dantesun.petclinic.data.entities.Person;
+import io.github.dantesun.petclinic.data.daos.OwnerDao;
+import io.github.dantesun.petclinic.data.entities.Owner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,32 +20,32 @@ public class PersistenceConfigTest {
 
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
-    private PersonDao personDao;
+    private OwnerDao ownerDao;
 
     @Test
     public void testDS() throws SQLException {
-        Person person = new Person();
-        person.setFirstName("John");
-        person.setLastName("Doe");
-        assertEquals(1, personDao.insertOne(person));
-        assertNotNull(person.getId());
-        assertNotNull(personDao.findOne(person.getId()));
-        person.setFirstName("Michael");
-        person.setLastName(null);
-        assertEquals(1, personDao.update(person));
-        person = personDao.findOne(person.getId());
-        assertNotNull(person);
-        assertEquals("Michael", person.getFirstName());
-        assertEquals("Doe", person.getLastName());
+        Owner owner = new Owner();
+        owner.setFirstName("John");
+        owner.setLastName("Doe");
+        assertEquals(1, ownerDao.insertOne(owner));
+        assertNotNull(owner.getId());
+        assertNotNull(ownerDao.findOne(owner.getId()));
+        owner.setFirstName("Michael");
+        owner.setLastName(null);
+        assertEquals(1, ownerDao.update(owner));
+        owner = ownerDao.findOne(owner.getId());
+        assertNotNull(owner);
+        assertEquals("Michael", owner.getFirstName());
+        assertEquals("Doe", owner.getLastName());
 
         //Insert the second record
-        person.setId(null);
-        assertEquals(1, personDao.insertOne(person));
-        assertNotNull(person.getId());
-        assertNotNull(personDao.findOne(person.getId()));
+        owner.setId(null);
+        assertEquals(1, ownerDao.insertOne(owner));
+        assertNotNull(owner.getId());
+        assertNotNull(ownerDao.findOne(owner.getId()));
 
-        List<Person> persons = personDao.findAll();
-        assertEquals(2, persons.size());
+        List<Owner> persons = ownerDao.findAll();
+        assertEquals(12, persons.size());
 
 
     }

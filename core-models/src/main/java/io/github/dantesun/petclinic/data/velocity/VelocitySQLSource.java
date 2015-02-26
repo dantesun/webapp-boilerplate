@@ -1,19 +1,14 @@
 package io.github.dantesun.petclinic.data.velocity;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.SqlSource;
-import org.apache.ibatis.ognl.Ognl;
-import org.apache.ibatis.ognl.OgnlException;
 import org.apache.ibatis.session.Configuration;
 import org.mybatis.scripting.velocity.ParameterMappingCollector;
 import org.mybatis.scripting.velocity.ParameterMappingSourceParser;
 import org.mybatis.scripting.velocity.VelocityFacade;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,12 +31,14 @@ public class VelocitySqlSource implements SqlSource {
     private final Class<?> parameterType;
 
     private static int templateIndex = 0;
+    private final StringUtils stringUtils;
 
 
     public VelocitySqlSource(Configuration configuration, String script, Class<?> parameterType) {
         this.configuration = configuration;
         this.script = script;
         this.parameterType = parameterType;
+        stringUtils = new StringUtils(configuration);
 
     }
 
@@ -51,8 +48,8 @@ public class VelocitySqlSource implements SqlSource {
         context.put(DATABASE_ID_KEY, configuration.getDatabaseId());
         context.put(PARAMETER_OBJECT_KEY, parameterObject);
         context.put(VARIABLES_KEY, configuration.getVariables());
-        context.put("strings", new StringUtils());
-        context.put("utils", new Utils(parameterObject));
+        context.put("strings", stringUtils);
+        context.put("utils", new ParameterObjectUtils(parameterObject, stringUtils));
         //The first round of velocity script rendering
         Object compiledScript = VelocityFacade.compile(script, "velocity-template-" + (++templateIndex));
         String appliedScript = VelocityFacade.apply(compiledScript, context);
@@ -75,22 +72,4 @@ public class VelocitySqlSource implements SqlSource {
         return boundSql;
     }
 
-    public class Utils {
-        private final Object root;
-
-        public Utils(Object root) {
-            this.root = root;
-        }
-
-        public Object[] deleteNullProp(String[] columns) throws OgnlException {
-            List<Object> result = new ArrayList<>();
-            for (String column : columns) {
-                if (null != Ognl.getValue(column, root)) {
-                    result.add(column);
-                }
-            }
-            return result.toArray();
-        }
-
-    }
 }

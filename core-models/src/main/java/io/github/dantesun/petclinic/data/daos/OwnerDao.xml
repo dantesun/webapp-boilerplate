@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.github.dantesun.petclinic.data.daos.OwnerDao">
+    <sql id="table">owners</sql>
+    <sql id="ownerColumn">first_name, last_name, address, city, telephone</sql>
+    <sql id="selectOwner">
+        SELECT id,
+        <include refid="ownerColumn"/>
+        FROM
+        <include refid="table"/>
+    </sql>
+
+    <update id="update" lang="velocity" parameterType="Owner">
+        UPDATE
+        <include refid="table"/>
+        #mset()
+        #foreach($mapping in $utils.mapNotNull("<include refid="ownerColumn"/>"))
+        $mapping.key = @{$mapping.value},
+        #end
+        #end
+        WHERE id = @{id}
+    </update>
+
+    <select id="findOne" resultType="Owner">
+        <include refid="selectOwner"/>
+        WHERE id=#{id}
+    </select>
+    <select id="findAll" resultType="Owner">
+        <include refid="selectOwner"/>
+    </select>
+    <select id="findByLastName" resultType="io.github.dantesun.petclinic.data.entities.Owner">
+        <include refid="selectOwner"/>
+        WHERE last_name =#{lastName}
+    </select>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id" lang="velocity">
+        INSERT INTO
+        <include refid="table"/>
+        (<include refid="ownerColumn"/>)
+        #set($values = $strings.columns2parameters("<include refid="ownerColumn"/>"))
+        VALUES ($values)
+    </insert>
+</mapper>

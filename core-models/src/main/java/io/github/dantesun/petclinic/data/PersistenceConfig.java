@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -32,10 +33,9 @@ public class PersistenceConfig {
         factoryBean.setDataSource(ds);
         String typeAliasesPackage = BaseEntity.class.getPackage().getName();
         factoryBean.setTypeAliasesPackage(typeAliasesPackage);
-        factoryBean.setTypeAliases(new Class<?>[]{VelocityDriver.class});
-
+        factoryBean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
         //Use velocity as the scripting language for mapper
-        SqlSessionFactory factory = factoryBean.getObject();
-        return factory;
+        factoryBean.setTypeAliases(new Class<?>[]{VelocityDriver.class});
+        return factoryBean.getObject();
     }
 }
