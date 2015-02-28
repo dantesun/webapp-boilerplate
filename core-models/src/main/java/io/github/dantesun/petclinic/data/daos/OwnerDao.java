@@ -20,4 +20,6 @@ public interface OwnerDao {
 
     public List<Owner> findByLastName(String lastName);
 
+    public int deleteById(Integer id);
+
 }

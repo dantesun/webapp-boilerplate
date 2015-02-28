@@ -5,12 +5,11 @@ import org.apache.ibatis.ognl.OgnlException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.IntFunction;
 import java.util.stream.IntStream;
-
-import static java.util.Arrays.binarySearch;
 
 /**
  * Created by dsun on 15/2/26.
@@ -45,7 +44,7 @@ public class ParameterObjectUtils {
                                            return false;
                                        }).toArray();
         return mappings.entrySet().stream()
-                       .filter(entry -> binarySearch(properties, entry.getValue()) >= 0).toArray();
+                       .filter(entry -> Arrays.stream(properties).anyMatch(entry.getValue()::equals)).toArray();
     }
 
 }

@@ -22,7 +22,6 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 public class PersistenceConfig {
 
-    @Bean
     DataSourceTransactionManager transactionManager(DataSource ds) {
         return new DataSourceTransactionManager(ds);
     }
