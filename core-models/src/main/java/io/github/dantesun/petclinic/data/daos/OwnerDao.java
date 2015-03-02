@@ -9,17 +9,8 @@ import java.util.List;
  * Created by dsun on 15/2/21.
  */
 
-public interface OwnerDao {
-    public Owner findOne(Integer id);
-
-    public List<Owner> findAll();
-
-    public int insertOne(Owner owner);
-
-    public int update(Owner owner);
+public interface OwnerDao extends Dao<Owner> {
 
     public List<Owner> findByLastName(String lastName);
-
-    public int deleteById(Integer id);
 
 }

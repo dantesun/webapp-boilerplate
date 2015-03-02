@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.github.dantesun.petclinic.data.daos.PetTypeDao">
+    <sql id="table">types</sql>
+    <sql id="columns">name</sql>
+    <sql id="selectAll">
+        SELECT id,
+        <include refid="columns"/>
+        FROM
+        <include refid="table"/>
+    </sql>
+
+    <update id="update" lang="velocity" parameterType="PetType">
+        UPDATE
+        <include refid="table"/>
+        #mset()
+        #foreach($mapping in $utils.mapNotNull("<include refid="columns"/>"))
+        $mapping.key = @{$mapping.value},
+        #end
+        #end
+        WHERE id = @{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM
+        <include refid="selectAll"/>
+        WHERE id = @{id}
+    </delete>
+
+    <select id="findOne" resultType="PetType">
+        <include refid="selectAll"/>
+        WHERE id=#{id}
+    </select>
+
+    <select id="findAll" resultType="PetType">
+        <include refid="selectAll"/>
+    </select>
+
+    <insert id="insertOne" keyProperty="id" lang="velocity">
+        INSERT INTO
+        <include refid="table"/>
+        (<include refid="columns"/>)
+        #set($values = $strings.columns2parameters("<include refid="columns"/>"))
+        VALUES ($values)
+    </insert>
+</mapper>

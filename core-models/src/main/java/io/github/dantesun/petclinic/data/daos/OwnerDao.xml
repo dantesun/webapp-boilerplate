@@ -41,7 +41,7 @@
         WHERE last_name = #{lastName}
     </select>
 
-    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id" lang="velocity">
+    <insert id="insertOne" keyProperty="id" lang="velocity">
         INSERT INTO
         <include refid="table"/>
         (<include refid="ownerColumn"/>)

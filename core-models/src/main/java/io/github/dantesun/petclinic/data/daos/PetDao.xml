@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="io.github.dantesun.petclinic.data.daos.PetDao">
+    <sql id="table">pets</sql>
+    <sql id="petColumn">name, birth_date, type_id</sql>
+    <sql id="selectPet">
+        SELECT
+        P.id as pet_id,
+        P.name as pet_name,
+        P.birth_date,
+        T.id as type_id,
+        T.name as type_name,
+        V.id as visit_id,
+        V.VISIT_DATE as visit_date,
+        V.DESCRIPTION as visit_description
+        FROM
+        pets P left outer join types T on P.type_id = T.id
+        left outer join visits V on P.id = V.pet_id
+    </sql>
+
+    <resultMap id="petResult" type="Pet" autoMapping="true">
+        <result property="id" column="pet_id"/>
+        <result property="name" column="pet_name"/>
+        <association property="type" javaType="PetType">
+            <result property="id" column="type_id"/>
+            <result property="name" column="type_name"/>
+        </association>
+        <collection property="visits" ofType="Visit">
+            <result property="id" column="visit_id"/>
+            <result property="description" column="visit_description"/>
+            <result property="date" column="visit_date"/>
+        </collection>
+    </resultMap>
+
+    <update id="update" lang="velocity" parameterType="Pet">
+        UPDATE
+        <include refid="table"/>
+        #mset()
+        #foreach($mapping in $utils.mapNotNull("<include refid="petColumn"/>"))
+        $mapping.key = @{$mapping.value},
+        #end
+        #end
+        WHERE id = @{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE id = @{id}
+    </delete>
+
+    <select id="findOne" resultMap="petResult">
+        <include refid="selectPet"/>
+        WHERE P.id=#{id}
+    </select>
+
+    <select id="findAll" resultMap="petResult">
+        <include refid="selectPet"/>
+    </select>
+
+    <select id="findByType" resultMap="petResult">
+        <include refid="selectPet"/>
+        WHERE T.id = #{id}
+    </select>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id" lang="velocity">
+        INSERT INTO
+        <include refid="table"/>
+        (<include refid="petColumn"/>)
+        #set($values = $strings.columns2parameters("<include refid="petColumn"/>"))
+        VALUES ($values)
+    </insert>
+</mapper>

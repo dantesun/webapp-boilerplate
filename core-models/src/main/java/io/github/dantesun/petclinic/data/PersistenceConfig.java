@@ -32,6 +32,7 @@ public class PersistenceConfig {
         factoryBean.setDataSource(ds);
         String typeAliasesPackage = BaseEntity.class.getPackage().getName();
         factoryBean.setTypeAliasesPackage(typeAliasesPackage);
+        factoryBean.setTypeHandlersPackage(typeAliasesPackage);
         factoryBean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
         //Use velocity as the scripting language for mapper
         factoryBean.setTypeAliases(new Class<?>[]{VelocityDriver.class});

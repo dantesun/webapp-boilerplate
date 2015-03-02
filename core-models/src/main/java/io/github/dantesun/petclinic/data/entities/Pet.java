@@ -15,12 +15,11 @@
  */
 package io.github.dantesun.petclinic.data.entities;
 
-import org.joda.time.DateTime;
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.*;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Simple business object representing a pet.
@@ -32,7 +31,7 @@ import java.util.*;
 public class Pet extends NamedEntity {
 
     @DateTimeFormat(pattern = "yyyy/MM/dd")
-    private DateTime birthDate;
+    private LocalDate birthDate;
 
     private PetType type;
 
@@ -41,11 +40,11 @@ public class Pet extends NamedEntity {
     private Set<Visit> visits;
 
 
-    public void setBirthDate(DateTime birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
-    public DateTime getBirthDate() {
+    public LocalDate getBirthDate() {
         return this.birthDate;
     }
 
@@ -76,10 +75,8 @@ public class Pet extends NamedEntity {
         return this.visits;
     }
 
-    public List<Visit> getVisits() {
-        List<Visit> sortedVisits = new ArrayList<Visit>(getVisitsInternal());
-        PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
-        return Collections.unmodifiableList(sortedVisits);
+    public Set<Visit> getVisits() {
+        return visits;
     }
 
     public void addVisit(Visit visit) {

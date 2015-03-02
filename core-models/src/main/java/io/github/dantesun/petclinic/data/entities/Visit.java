@@ -15,8 +15,9 @@
  */
 package io.github.dantesun.petclinic.data.entities;
 
-import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 /**
  * Simple JavaBean domain object representing a visit.
@@ -29,7 +30,7 @@ public class Visit extends BaseEntity {
      * Holds value of property date.
      */
     @DateTimeFormat(pattern = "yyyy/MM/dd")
-    private DateTime date;
+    private LocalDate date;
 
     /**
      * Holds value of property description.
@@ -46,7 +47,7 @@ public class Visit extends BaseEntity {
      * Creates a new instance of Visit for the current date
      */
     public Visit() {
-        this.date = new DateTime();
+        this.date = LocalDate.now();
     }
 
 
@@ -55,7 +56,7 @@ public class Visit extends BaseEntity {
      *
      * @return Value of property date.
      */
-    public DateTime getDate() {
+    public LocalDate getDate() {
         return this.date;
     }
 
@@ -64,7 +65,7 @@ public class Visit extends BaseEntity {
      *
      * @param date New value of property date.
      */
-    public void setDate(DateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
