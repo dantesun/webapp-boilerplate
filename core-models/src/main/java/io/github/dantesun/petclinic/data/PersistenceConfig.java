@@ -1,6 +1,6 @@
 package io.github.dantesun.petclinic.data;
 
-import io.github.dantesun.petclinic.data.daos.DaoMarker;
+import io.github.dantesun.petclinic.data.daos.Dao;
 import io.github.dantesun.petclinic.data.entities.BaseEntity;
 import io.github.dantesun.petclinic.data.velocity.VelocityDriver;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -9,7 +9,6 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -18,13 +17,9 @@ import javax.sql.DataSource;
  * Created by dsun on 15/2/21.
  */
 @Configuration
-@MapperScan(basePackageClasses = DaoMarker.class)
+@MapperScan(basePackageClasses = Dao.class)
 @EnableTransactionManagement
 public class PersistenceConfig {
-
-    DataSourceTransactionManager transactionManager(DataSource ds) {
-        return new DataSourceTransactionManager(ds);
-    }
 
     @Bean
     SqlSessionFactory sqlSessionFactory(DataSource ds) throws Exception {

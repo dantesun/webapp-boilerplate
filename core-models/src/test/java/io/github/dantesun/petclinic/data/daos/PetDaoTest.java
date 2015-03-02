@@ -9,7 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -48,5 +53,16 @@ public class PetDaoTest {
         for (Pet pet : pets) {
             assertEquals(pet.getType(), type);
         }
+    }
+
+    @Test
+    public void testDatetime() {
+        LocalTime midnight = LocalTime.MIDNIGHT;
+        LocalDate today = LocalDate.now();
+        LocalDateTime todayMidnight = LocalDateTime.of(today, midnight);
+        LocalDateTime tomorrowMidnight = todayMidnight.plusDays(1);
+        System.out.println(TimeUnit.NANOSECONDS.toSeconds(Duration.between(LocalDateTime.now(), tomorrowMidnight).toNanos()));
+        System.out.println(TimeUnit.NANOSECONDS.toSeconds(Duration.between(LocalDateTime.now(), todayMidnight).toNanos()));
+
     }
 }
